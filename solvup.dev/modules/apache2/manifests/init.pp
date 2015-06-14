@@ -26,12 +26,32 @@ class apache2 {
         notify  => Exec["apache2-restart"],
     }
 
-    file { "apache2-solvup-host":
+    file { "apache2-default-conf":
         path    => "/etc/apache2/sites-enabled/000-default.conf",
         owner   => root,
         group   => root,
         ensure  => present,
-        source  => "puppet:///modules/apache2/apache.solvup.conf",
+        source  => "puppet:///modules/apache2/000-default.conf",
+        require => [ Package["apache2"], Package["php5-common"], Package["libapache2-mod-php5"] ],
+        notify  => Exec["apache2-restart"],
+    }
+
+    file { "apache2-solvup-host":
+        path    => "/etc/apache2/sites-enabled/solvup.com.au.conf",
+        owner   => root,
+        group   => root,
+        ensure  => present,
+        source  => "puppet:///modules/apache2/solvup.com.au.conf",
+        require => [ Package["apache2"], Package["php5-common"], Package["libapache2-mod-php5"] ],
+        notify  => Exec["apache2-restart"],
+    }
+
+    file { "apache2-ssl-conf":
+        path    => "/etc/apache2/sites-enabled/default-ssl.conf",
+        owner   => root,
+        group   => root,
+        ensure  => present,
+        source  => "puppet:///modules/apache2/default-ssl.conf",
         require => [ Package["apache2"], Package["php5-common"], Package["libapache2-mod-php5"] ],
         notify  => Exec["apache2-restart"],
     }
