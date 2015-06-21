@@ -47,7 +47,7 @@ class apache2 {
     }
 
     file { "apache2-ssl-conf":
-        path    => "/etc/apache2/sites-enabled/default-ssl.conf",
+        path    => "/etc/apache2/sites-available/default-ssl.conf",
         owner   => root,
         group   => root,
         ensure  => present,
